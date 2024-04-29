@@ -50,6 +50,36 @@ const spotCollection = client.db('spotDB').collection('spot');
          res.send(result);
     })
  
+    app.get('/update/:id' , async(req,res)=>{
+          const id =req.params.id ;
+          const query ={_id: new ObjectId(id)}
+          const result =  await spotCollection.findOne(query);
+          res.send(result);
+    })
+
+    app.put('/update/:id', async (req, res) => {
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        const options = { upsert: true };
+        const updatedSpot = req.body;
+        const updateErporSpot = {
+            $set: {
+                photourl: updatedSpot.photourl,
+                spot: updatedSpot.spot,
+                country: updatedSpot.country,
+                location: updatedSpot.location,
+                description: updatedSpot.description,
+                cost: updatedSpot.cost,
+                seasonality: updatedSpot.seasonality,
+                time: updatedSpot.time,
+                year: updatedSpot.year
+            }
+           
+        }
+        const result = await spotCollection.updateOne(filter , updateErporSpot , options )
+        res.send(result);
+    });
+
 
     app.post('/spot' , async(req,res)=>{
         const  newSpot = await req.body;
