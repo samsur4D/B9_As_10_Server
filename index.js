@@ -43,12 +43,14 @@ async function run() {
 
     // journey start--------🦾
 const spotCollection = client.db('spotDB').collection('spot');
+
     
     app.get('/spot' , async(req,res)=>{
          const cursor = spotCollection.find();
          const result = await cursor.toArray();
          res.send(result);
     })
+   
  
     app.get('/update/:id' , async(req,res)=>{
           const id =req.params.id ;
